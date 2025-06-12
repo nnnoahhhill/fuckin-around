@@ -1,7 +1,7 @@
 // Three.js Scene Setup
 let scene, camera, renderer, controls;
 let textMesh, islandGroup, oceanMesh;
-let palmTree, textShadow;
+let palmTree, floatingLetters, crab;
 let animationId;
 
 // Initialize the scene
@@ -37,6 +37,8 @@ function init() {
     createIsland();
     createPalmTree();
     createText();
+    createFloatingLetters();
+    createCrab();
     
     // Hide loading
     document.getElementById('loading').style.display = 'none';
@@ -369,23 +371,165 @@ function createTextFromBoxes() {
     textGroup.rotation.x = -0.1;
     textMesh = textGroup;
     scene.add(textGroup);
-
-    // Create text shadow on the sand
-    createTextShadow();
 }
 
-function createTextShadow() {
-    const shadowGeometry = new THREE.PlaneGeometry(25, 6);
-    const shadowMaterial = new THREE.MeshBasicMaterial({ 
-        color: 0x000000,
-        transparent: true,
-        opacity: 0.3
-    });
+function createFloatingLetters() {
+    floatingLetters = new THREE.Group();
     
-    textShadow = new THREE.Mesh(shadowGeometry, shadowMaterial);
-    textShadow.rotation.x = -Math.PI / 2;
-    textShadow.position.set(0, 0.1, 2);
-    scene.add(textShadow);
+    // Create "LORDE SUMMER" using smaller box geometries floating in water
+    const waterLetters = [
+        // L
+        { pos: [-20, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [-19.5, -0.85, 15], size: [1, 0.3, 0.3] },
+        
+        // O
+        { pos: [-17.5, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [-16.5, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [-17, 0.85, 15], size: [0.7, 0.3, 0.3] },
+        { pos: [-17, -0.85, 15], size: [0.7, 0.3, 0.3] },
+        
+        // R
+        { pos: [-15, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [-14.25, 0.85, 15], size: [0.8, 0.3, 0.3] },
+        { pos: [-13.7, 0.425, 15], size: [0.3, 0.6, 0.3] },
+        { pos: [-14.25, 0.15, 15], size: [0.7, 0.3, 0.3] },
+        { pos: [-14.5, -0.35, 15], size: [0.3, 0.7, 0.3] },
+        
+        // D
+        { pos: [-12, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [-11.25, 0.85, 15], size: [0.7, 0.3, 0.3] },
+        { pos: [-11.25, -0.85, 15], size: [0.7, 0.3, 0.3] },
+        { pos: [-10.75, 0.35, 15], size: [0.3, 1, 0.3] },
+        { pos: [-10.75, -0.35, 15], size: [0.3, 1, 0.3] },
+        
+        // E
+        { pos: [-9, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [-8.25, 0.85, 15], size: [1, 0.3, 0.3] },
+        { pos: [-8.25, 0, 15], size: [0.7, 0.3, 0.3] },
+        { pos: [-8.25, -0.85, 15], size: [1, 0.3, 0.3] },
+        
+        // Space
+        
+        // S (SUMMER)
+        { pos: [-5, 0.85, 15], size: [1, 0.3, 0.3] },
+        { pos: [-5.75, 0.35, 15], size: [0.3, 0.7, 0.3] },
+        { pos: [-5, 0, 15], size: [1, 0.3, 0.3] },
+        { pos: [-4.25, -0.35, 15], size: [0.3, 0.7, 0.3] },
+        { pos: [-5, -0.85, 15], size: [1, 0.3, 0.3] },
+        
+        // U
+        { pos: [-2.5, 0.35, 15], size: [0.3, 1.3, 0.3] },
+        { pos: [-1.5, 0.35, 15], size: [0.3, 1.3, 0.3] },
+        { pos: [-2, -0.85, 15], size: [0.7, 0.3, 0.3] },
+        
+        // M
+        { pos: [0, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [1.5, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [0.75, 0.5, 15], size: [0.3, 1, 0.3] },
+        { pos: [0.4, 0.7, 15], size: [0.3, 0.6, 0.3] },
+        { pos: [1.1, 0.7, 15], size: [0.3, 0.6, 0.3] },
+        
+        // M
+        { pos: [2.5, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [4, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [3.25, 0.5, 15], size: [0.3, 1, 0.3] },
+        { pos: [2.9, 0.7, 15], size: [0.3, 0.6, 0.3] },
+        { pos: [3.6, 0.7, 15], size: [0.3, 0.6, 0.3] },
+        
+        // E
+        { pos: [5.5, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [6.25, 0.85, 15], size: [1, 0.3, 0.3] },
+        { pos: [6.25, 0, 15], size: [0.7, 0.3, 0.3] },
+        { pos: [6.25, -0.85, 15], size: [1, 0.3, 0.3] },
+        
+        // R
+        { pos: [8, 0, 15], size: [0.3, 2, 0.3] },
+        { pos: [8.75, 0.85, 15], size: [0.8, 0.3, 0.3] },
+        { pos: [9.3, 0.425, 15], size: [0.3, 0.6, 0.3] },
+        { pos: [8.75, 0.15, 15], size: [0.7, 0.3, 0.3] },
+        { pos: [9, -0.35, 15], size: [0.3, 0.7, 0.3] }
+    ];
+
+    const waterTextMaterial = new THREE.MeshLambertMaterial({ 
+        color: 0x00CCFF,
+        emissive: 0x003366,
+        transparent: true,
+        opacity: 0.9
+    });
+
+    waterLetters.forEach(letter => {
+        const geometry = new THREE.BoxGeometry(letter.size[0], letter.size[1], letter.size[2]);
+        const mesh = new THREE.Mesh(geometry, waterTextMaterial);
+        mesh.position.set(letter.pos[0], letter.pos[1], letter.pos[2]);
+        mesh.castShadow = true;
+        floatingLetters.add(mesh);
+    });
+
+    // Position the floating letters in the water
+    floatingLetters.position.set(0, -1, 0);
+    scene.add(floatingLetters);
+}
+
+function createCrab() {
+    crab = new THREE.Group();
+
+    // Crab body
+    const bodyGeometry = new THREE.SphereGeometry(0.3, 8, 6);
+    const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0xFF4500 });
+    const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+    body.scale.set(1.2, 0.6, 1);
+    body.position.y = 0.2;
+    body.castShadow = true;
+    crab.add(body);
+
+    // Crab claws
+    const clawGeometry = new THREE.SphereGeometry(0.15, 6, 4);
+    const clawMaterial = new THREE.MeshLambertMaterial({ color: 0xFF6347 });
+    
+    const leftClaw = new THREE.Mesh(clawGeometry, clawMaterial);
+    leftClaw.position.set(-0.5, 0.2, -0.2);
+    leftClaw.castShadow = true;
+    crab.add(leftClaw);
+    
+    const rightClaw = new THREE.Mesh(clawGeometry, clawMaterial);
+    rightClaw.position.set(0.5, 0.2, -0.2);
+    rightClaw.castShadow = true;
+    crab.add(rightClaw);
+
+    // Crab legs
+    const legGeometry = new THREE.CylinderGeometry(0.02, 0.02, 0.3, 4);
+    const legMaterial = new THREE.MeshLambertMaterial({ color: 0xFF4500 });
+    
+    for (let i = 0; i < 6; i++) {
+        const leg = new THREE.Mesh(legGeometry, legMaterial);
+        const side = i < 3 ? -1 : 1;
+        const legIndex = i % 3;
+        leg.position.set(side * 0.4, 0.05, -0.3 + legIndex * 0.3);
+        leg.rotation.z = side * Math.PI * 0.2;
+        leg.castShadow = true;
+        crab.add(leg);
+    }
+
+    // Eyes
+    const eyeGeometry = new THREE.SphereGeometry(0.05, 6, 4);
+    const eyeMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+    
+    const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+    leftEye.position.set(-0.15, 0.35, 0.25);
+    crab.add(leftEye);
+    
+    const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+    rightEye.position.set(0.15, 0.35, 0.25);
+    crab.add(rightEye);
+
+    // Position crab on island
+    crab.position.set(-2, 0, 2);
+    crab.userData = { 
+        angle: 0, 
+        radius: 3,
+        speed: 0.5
+    };
+    scene.add(crab);
 }
 
 function animate() {
@@ -405,6 +549,15 @@ function animate() {
         textMesh.rotation.z = Math.sin(time * 1.5) * 0.05;
     }
 
+    // Floating letters animation
+    if (floatingLetters) {
+        floatingLetters.children.forEach((letter, index) => {
+            letter.position.y = -1 + Math.sin(time * 1.5 + index * 0.3) * 0.3;
+            letter.rotation.x = Math.sin(time + index * 0.5) * 0.1;
+            letter.rotation.z = Math.cos(time * 0.8 + index * 0.4) * 0.05;
+        });
+    }
+
     // Palm tree swaying with coconuts
     if (palmTree) {
         palmTree.rotation.z = Math.sin(time * 2) * 0.05;
@@ -416,10 +569,26 @@ function animate() {
         });
     }
 
-    // Update shadow position based on text
-    if (textShadow && textMesh) {
-        textShadow.position.x = textMesh.position.x * 0.1;
-        textShadow.position.z = 2 + textMesh.position.y * 0.1;
+    // Animate crab movement
+    if (crab) {
+        crab.userData.angle += crab.userData.speed * 0.01;
+        const newX = Math.cos(crab.userData.angle) * crab.userData.radius;
+        const newZ = Math.sin(crab.userData.angle) * crab.userData.radius;
+        crab.position.x = newX;
+        crab.position.z = newZ;
+        
+        // Rotate crab to face movement direction
+        crab.rotation.y = crab.userData.angle + Math.PI / 2;
+        
+        // Add some bobbing motion
+        crab.position.y = 0.1 + Math.sin(time * 4) * 0.05;
+        
+        // Animate claws
+        crab.children.forEach((child, index) => {
+            if (index === 1 || index === 2) { // Claws
+                child.rotation.z = Math.sin(time * 3 + index * Math.PI) * 0.3;
+            }
+        });
     }
 
     // Update controls
