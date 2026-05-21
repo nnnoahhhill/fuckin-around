@@ -14,6 +14,12 @@ Direct-to-human payments are already enormous, but they mostly stop at access, t
 
 This is not fundamentally different from how consumers already behave with companies. You keep paying Starbucks because you trust it will keep matching expectations, make new drinks, fix mistakes, price reasonably, and still be there tomorrow. Starbucks had 33.8 million 90-day active U.S. Rewards members in Q4 FY2024, and when the customer experience slipped, transactions fell. Apple is even clearer: people buy into an ecosystem and the promise of what comes next, not just the device in their hand. The App Store ecosystem facilitated nearly $1.3 trillion in 2024 billings and sales and more than doubled from 2019. Most spending is future trust wearing a product costume.
 
+## Financial model
+
+Patreon is the reference point for a direct-fan platform: new creators pay a 10% platform fee, more than $2 billion flows to creators annually, there are more than 25 million paid memberships, and more than 700,000 free memberships convert to paid each month. HFC should not copy Patreon exactly because investment transactions are regulated, but the benchmark proves that fan-to-person payment volume can support a large platform fee business.
+
+Simple HFC revenue can come from a small approved transaction fee on closed investment volume, investor premium tools, investee reporting/admin SaaS, and a take rate on non-investment services like calls, coaching, templates, and paid updates. At a 2% approved investment-platform fee, $25 million of annual closed investment volume creates $500,000 of transaction revenue; $500 million creates $10 million; and Patreon-scale $2 billion annual flow creates $40 million before adding subscriptions, SaaS, or services.
+
 The fastest legal MVP is not ordinary Stripe-powered equity crowdfunding. Stripe can support subscriptions, paid messaging, bookings, and a la carte investee services after approval, but live investment money, escrow, securities issuance, investor checks, closings, and cap-table records should run through a registered partner. The first Vercel build should be a Next.js marketplace with profiles, dashboards, messaging, updates, admin review, mock investment handoff, revenue reporting, and partner-ready integration boundaries.
 
 ## Representation model
