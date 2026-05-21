@@ -2,6 +2,10 @@
 
 A Three.js 3D interactive scene featuring "Loose Friday" text floating above a tropical island paradise with floating "Lorde Summer" letters in the water.
 
+## Human Futures Capital
+
+See [`docs/hfc-mvp-blueprint.md`](docs/hfc-mvp-blueprint.md) for the planned full-stack marketplace, investment/legal rail, Vercel MVP architecture, product flows, data model, API surface, and launch phases for the human-capital crowdfunding concept.
+
 ## Features
 - 3D golden "Loose Friday" text with hovering/waving animations
 - Floating "Lorde Summer" letters in translucent blue bobbing in the ocean waves
