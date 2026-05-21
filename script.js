@@ -31,7 +31,9 @@ const renderGrid = document.getElementById("render-grid");
 const metricsGrid = document.getElementById("metrics-grid");
 const pricingGuidance = document.getElementById("pricing-guidance");
 const previewTitle = document.getElementById("preview-title");
+const previewSubmitButton = document.getElementById("preview-submit-button");
 const approveButton = document.getElementById("approve-button");
+const campaignStatus = document.getElementById("campaign-status");
 
 function selectedListing() {
     return state.listings.find((listing) => listing.id === state.selectedListingId);
@@ -206,6 +208,32 @@ function campaignPayload() {
     };
 }
 
+async function submitCampaign() {
+    if (!form.reportValidity()) return;
+
+    previewSubmitButton.disabled = true;
+    campaignStatus.textContent = "Submitting campaign for owner and buyer approval...";
+
+    try {
+        const campaign = await api("/api/campaigns", {
+            body: JSON.stringify(campaignPayload()),
+            method: "POST"
+        });
+
+        state.previewCampaignId = campaign.id;
+        approveButton.disabled = false;
+        await loadMarketplace();
+        state.previewCampaignId = campaign.id;
+        approveButton.disabled = false;
+        campaignStatus.textContent = `${campaign.buyer} campaign submitted. Preview renders are ready for approval.`;
+        renderPreviews();
+    } catch (error) {
+        campaignStatus.textContent = error.message;
+    } finally {
+        previewSubmitButton.disabled = false;
+    }
+}
+
 listingSelect.addEventListener("change", () => {
     const listing = state.listings.find((item) => item.id === listingSelect.value);
     state.selectedListingId = listing.id;
@@ -229,22 +257,16 @@ document.querySelectorAll(".swatch").forEach((button) => {
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const campaign = await api("/api/campaigns", {
-        body: JSON.stringify(campaignPayload()),
-        method: "POST"
-    });
-
-    state.previewCampaignId = campaign.id;
-    approveButton.disabled = false;
-    await loadMarketplace();
-    state.previewCampaignId = campaign.id;
-    approveButton.disabled = false;
-    renderPreviews();
+    await submitCampaign();
 });
+
+previewSubmitButton.addEventListener("click", submitCampaign);
 
 approveButton.addEventListener("click", async () => {
     if (!state.previewCampaignId) return;
 
+    approveButton.disabled = true;
+    campaignStatus.textContent = "Approving campaign on behalf of owner and buyer...";
     await api(`/api/campaigns/${state.previewCampaignId}/approve`, {
         body: JSON.stringify({ party: "owner" }),
         method: "POST"
@@ -256,6 +278,7 @@ approveButton.addEventListener("click", async () => {
 
     await loadMarketplace();
     approveButton.disabled = true;
+    campaignStatus.textContent = "Campaign approved and live for matching preview requests.";
 });
 
 form.startsAt.value = today(0);
