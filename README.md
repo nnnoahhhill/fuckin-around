@@ -1,18 +1,48 @@
-# Loose Friday 🌴
+# Ghostline
 
-A Three.js 3D interactive scene featuring "Loose Friday" text floating above a tropical island paradise with floating "Lorde Summer" letters in the water.
+Ghostline is a self-hostable agent workstation: a headless server with a virtual display,
+remote-control stream, voice/text/call input, and a strict approval protocol for actions that
+touch accounts, money, social posting, or messages.
 
-## Features
-- 3D golden "Loose Friday" text with hovering/waving animations
-- Floating "Lorde Summer" letters in translucent blue bobbing in the ocean waves
-- Realistic tropical island with natural terrain variation and beach plants
-- Detailed palm tree with curved trunk and coconuts that gently rotate
-- Enhanced ocean with multi-layered waves, foam effects, and realistic water colors
-- Animated crab that walks around the island with moving claws and bobbing motion
-- Interactive camera controls (drag to rotate, scroll to zoom)
-- Coral reefs and varied rock formations around the island
+The point is simple: your agent can use a computer like a person while you stay off your phone.
+You stay in control through one-at-a-time action approvals, redacted screenshots, audit logs, and
+capability-scoped sessions.
 
-## Live Demo
-Visit the site at: [https://nnnoahhhill.github.io/fuckin-around/](https://nnnoahhhill.github.io/fuckin-around/)
+## Repo layout
 
-Built with Three.js featuring custom GLSL shaders for realistic ocean effects, floating text animations, and wildlife interactions. Deployed via GitHub Pages.
+- `apps/api` - Node HTTP API for sessions, instructions, action intents, approvals, and audit logs.
+- `apps/web` - React command center for the virtual desktop, approval queue, and protocol limits.
+- `packages/protocol` - Shared TypeScript action protocol and validation rules.
+- `docs` - Architecture, agent protocol, security, privacy, money handling, device, and hosting docs.
+
+## Run it
+
+```bash
+npm install
+npm run dev:api
+npm run dev:web
+```
+
+Open `http://localhost:5173`.
+
+## Test it
+
+```bash
+npm run typecheck
+npm test
+npm run build
+npm run e2e:api
+```
+
+`npm run e2e:api` expects `apps/api` to be running on `http://localhost:8787`.
+
+## Core rule
+
+Ghostline follows a one input / one output standard:
+
+1. The user gives one instruction.
+2. The agent creates one action intent.
+3. The user approves or rejects that one intent.
+4. The system executes at most one action and records evidence.
+
+Bulk social messages, bulk marketplace messages, and silent money movement are outside the protocol.
