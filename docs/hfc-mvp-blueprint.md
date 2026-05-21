@@ -75,7 +75,9 @@ Use a partner funding portal or broker-dealer for live investments.
 
 ### Security instrument
 
-Default MVP instrument: non-voting preferred stock or revenue-share note issued by each investee C-corp. Stock is not the soul of the product; it is the most effective representation available because the legal system already understands private company ownership, cap tables, transfer restrictions, dividends, distributions, and taxable events.
+Default MVP instrument: non-voting preferred stock or revenue-share note issued by each investee C-corp. Buying stock in a company has always been an agreement. A stock certificate is basically a signed agreement on paper: what was bought, what the holder expects, what the issuer owes, and what rules can be enforced. The real thing underneath is trust that the issuer will pursue the goals the investor backed. HFC applies that same agreement model to a person directly. Stock is just how the trust, expectations, rules, regulation, monitoring, and security get communicated in a form the world can enforce.
+
+Stock is not the soul of the product; it is the most effective representation available because the legal system already understands private company ownership, cap tables, transfer restrictions, dividends, distributions, and taxable events. That paper-first model is old-school. Vintage. Useful, but not sacred. HFC should be the new-day version: direct human backing with better transparency, better accountability, and better alignment.
 
 Required terms:
 
