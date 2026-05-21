@@ -38,7 +38,29 @@ These are pitch-model numbers, not legal offering claims.
 - Clinical development success is low. Oncology drug phase-1-to-approval estimates commonly land around 7.9% to 14.3%, depending on cohort and methodology.
 - Scenario model: 1,000 extra serious oncology clinical candidates could produce roughly 79 to 143 approvals or new indications if historical conversion rates held. Papers do not equal cures, but more capable researchers and funded attempts increase the surface area for breakthroughs.
 
-## 3. Legal product shape
+## 3. Direct-to-human payment trend
+
+The internet already proved people will pay people directly. The missing layer is long-term aligned upside.
+
+### Creator platforms
+
+- OnlyFans processed $7.22 billion in fan payments in fiscal 2024, up 9%, and paid creators $5.80 billion. It had 377.5 million fan accounts, 4.634 million creator accounts, and 46 reported employees. Directionally, that is about $157 million of gross fan payments per employee and $30.7 million of net revenue per employee, before adjusting for contractors.
+- Patreon says creators have generated more than $8 billion since 2013, more than 10 million fans pay for memberships each month, free memberships passed 60 million in 2024, monthly revenue from one-time purchases was up 4x year over year, and more than 400,000 free memberships convert into paid memberships each month.
+- Substack passed 5 million paid subscriptions and has more than 50,000 active paid publications. Stripe says saved payment credentials make readers 3x more likely to pay for another subscription.
+- Goldman Sachs Research estimated the creator economy at about $250 billion in 2023, potentially growing to $480 billion by 2027, with roughly 50 million global creators. It also estimated that only about 4% of creators are professionals earning more than $100,000, and around 70% of creator revenue comes from brand deals.
+
+Interpretation: direct payments are already huge, but most creator platforms monetize access, tips, subscriptions, sponsorships, or one-time products. They do not let normal fans participate in a creator's broader economic upside. If an OnlyFans or Patreon creator allocated even 10% of an approved revenue pool to patron-investors, the backers would care more, invest more, help more, and think long-term instead of just buying monthly access.
+
+### Regular companies already sell future trust
+
+Consumers do not only buy "now." They buy the promise that the seller will keep meeting expectations.
+
+- Starbucks reported 33.8 million 90-day active US Rewards members in Q4 FY2024. When the customer experience weakened, Q4 global comparable transactions fell 8% and North America/U.S. comparable transactions fell 10%. That is the trust loop in public-company form: people keep paying when the company keeps the promise, and they pull back when it does not.
+- Apple is the cleanest ecosystem example. The App Store ecosystem facilitated nearly $1.3 trillion in billings and sales worldwide in 2024, more than double 2019. People buy into the device, the services, the saved payments, the apps, the status, the compatibility, and what comes next. The product today is partly a ticket to the future ecosystem.
+
+HFC applies this to individual humans. The Starbucks promise is "keep making the drink I trust and improve the experience." The Apple promise is "keep making the ecosystem better and let me stay current." The HFC promise is "I trust this person to pursue the future they described, report honestly, use help well, and share defined upside if it works."
+
+## 4. Legal product shape
 
 ### What is actually being invested in
 
@@ -126,7 +148,7 @@ All money is classified before it can affect investor economics.
 | Grants/scholarships | Depends | Must be classified in offering docs. |
 | Passive personal investments | No | Excluded. |
 
-## 4. MVP scope
+## 5. MVP scope
 
 ### Investor experience
 
@@ -155,7 +177,7 @@ All money is classified before it can affect investor economics.
 - Moderate content and messages.
 - Admin-only partner reconciliation: offering IDs, investor IDs, cap table entries, distributions.
 
-## 5. Stack for Vercel MVP
+## 6. Stack for Vercel MVP
 
 | Layer | Choice | Reason |
 | --- | --- | --- |
@@ -174,7 +196,7 @@ All money is classified before it can affect investor economics.
 
 NestJS can be added later for a separate compliance/accounting service, but the first deploy should stay as a Next.js monolith because Vercel free tier is the constraint.
 
-## 6. Core domain model
+## 7. Core domain model
 
 ```sql
 create type user_role as enum ('investor', 'investee', 'admin');
@@ -327,7 +349,7 @@ create table help_requests (
 );
 ```
 
-## 7. API surface
+## 8. API surface
 
 ### Public
 
@@ -364,7 +386,7 @@ create table help_requests (
 - `POST /api/webhooks/stripe`: receive non-investment payment events.
 - `POST /api/webhooks/accounting`: receive bank/accounting updates.
 
-## 8. Key workflows
+## 9. Key workflows
 
 ### Investee onboarding
 
@@ -403,7 +425,7 @@ create table help_requests (
 4. Payment processor or partner disburses to investors.
 5. Investors with reinvest election receive new securities only through approved issuance mechanics.
 
-## 9. UI map
+## 10. UI map
 
 ### Marketplace
 
@@ -442,7 +464,7 @@ create table help_requests (
 - Update composer.
 - Revenue classifier.
 
-## 10. Monetization
+## 11. Monetization
 
 MVP revenue streams that do not require HFC to custody investment money:
 
@@ -452,7 +474,7 @@ MVP revenue streams that do not require HFC to custody investment money:
 4. Success/platform fee only if counsel and registered partner approve the exact compensation structure.
 5. Later: issuer services, accounting package, cap-table/admin package, ATS partner referral.
 
-## 11. Compliance and trust features
+## 12. Compliance and trust features
 
 - Prominent investment risk disclosure on every offering surface.
 - Offering content immutable after partner launch except approved amendments.
@@ -464,7 +486,7 @@ MVP revenue streams that do not require HFC to custody investment money:
 - Marketplace rankings must not look like investment advice unless counsel approves.
 - Every revenue event has source, external ID, classification, reviewer, timestamp, and memo.
 
-## 12. Build phases
+## 13. Build phases
 
 ### Phase 0: legal/product validation
 
@@ -503,7 +525,7 @@ MVP revenue streams that do not require HFC to custody investment money:
 - ATS/broker-dealer secondary integration.
 - Reserve policy tooling without liquidity promises.
 
-## 13. First repo implementation tasks
+## 14. First repo implementation tasks
 
 1. Replace static site with `apps/web` Next.js app.
 2. Add `packages/db` Prisma schema based on this document.
@@ -516,12 +538,18 @@ MVP revenue streams that do not require HFC to custody investment money:
 9. Add partner investment adapter interface with a mock provider until the real partner contract is signed.
 10. Add accounting adapter interface with manual CSV import first, then Plaid/QuickBooks.
 
-## 14. External references
+## 15. External references
 
 - SEC Regulation Crowdfunding overview: https://www.sec.gov/resources-small-businesses/exempt-offerings/regulation-crowdfunding
 - SEC Rule 506(c) overview: https://www.sec.gov/resources-small-businesses/exempt-offerings/general-solicitation-rule-506c
 - Stripe restricted businesses: https://stripe.com/en-th/legal/restricted-businesses
 - IRS S-corp requirements: https://www.irs.gov/businesses/small-businesses-self-employed/s-corporations
+- OnlyFans 2024 financials: https://variety.com/2025/digital/news/onlyfans-fiscal-2024-revenue-earnings-1236495750/
+- Patreon 2024 creator/fan data: https://news.patreon.com/articles/celebrating-another-year-of-connecting-creators-and-their-real-fans
+- Substack paid subscriptions and Stripe payments: https://stripe.com/customers/substack
+- Goldman Sachs creator economy estimate: https://www.goldmansachs.com/insights/articles/the-creator-economy-could-approach-half-a-trillion-dollars-by-2027
+- Starbucks FY2024 Rewards and transaction data: https://last10k.com/sec-filings/sbux/0000829224-24-000057.htm
+- Apple App Store ecosystem report: https://www.apple.com/newsroom/pdfs/2024-Apple-Global-Ecosystem-Report-June2025.pdf
 - UNESCO higher education enrollment: https://www.unesco.org/en/articles/number-students-higher-education-more-doubled-20-years-inequalities-remain
 - UNESCO teacher shortage: https://www.unesco.org/en/articles/global-report-teachers-addressing-teacher-shortages-and-transforming-profession
 - WHO health workforce shortage: https://www.who.int/teams/health-workforce/about

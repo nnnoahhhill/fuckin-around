@@ -8,6 +8,12 @@ The core bet: money kills dreams, belief compounds motivation, and direct invest
 
 Investors do not receive voting rights. Investees can still publish non-binding polls, ask backers for help, sell approved a la carte services, and build a community that wants them to win because upside is aligned.
 
+## Market proof
+
+Direct-to-human payments are already enormous, but they mostly stop at access, tips, subscriptions, and parasocial goodwill. OnlyFans processed $7.22 billion of fan payments in fiscal 2024, paid creators $5.80 billion, had 377.5 million fan accounts, and reported 46 employees. Patreon says creators have generated more than $8 billion since launch, with more than 10 million paid memberships each month and more than 60 million free memberships. Substack has more than 5 million paid subscriptions and more than 50,000 paid publications. People already pay individual people at scale; HFC adds long-term upside, reporting, accountability, and investor economics.
+
+This is not fundamentally different from how consumers already behave with companies. You keep paying Starbucks because you trust it will keep matching expectations, make new drinks, fix mistakes, price reasonably, and still be there tomorrow. Starbucks had 33.8 million 90-day active U.S. Rewards members in Q4 FY2024, and when the customer experience slipped, transactions fell. Apple is even clearer: people buy into an ecosystem and the promise of what comes next, not just the device in their hand. The App Store ecosystem facilitated nearly $1.3 trillion in 2024 billings and sales and more than doubled from 2019. Most spending is future trust wearing a product costume.
+
 The fastest legal MVP is not ordinary Stripe-powered equity crowdfunding. Stripe can support subscriptions, paid messaging, bookings, and a la carte investee services after approval, but live investment money, escrow, securities issuance, investor checks, closings, and cap-table records should run through a registered partner. The first Vercel build should be a Next.js marketplace with profiles, dashboards, messaging, updates, admin review, mock investment handoff, revenue reporting, and partner-ready integration boundaries.
 
 ## Representation model
