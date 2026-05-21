@@ -60,7 +60,94 @@ Consumers do not only buy "now." They buy the promise that the seller will keep 
 
 HFC applies this to individual humans. The Starbucks promise is "keep making the drink I trust and improve the experience." The Apple promise is "keep making the ecosystem better and let me stay current." The HFC promise is "I trust this person to pursue the future they described, report honestly, use help well, and share defined upside if it works."
 
-## 4. Legal product shape
+## 4. Revenue model and projections
+
+These are planning models, not offering projections. Securities-related compensation must be structured with counsel and the registered partner so HFC does not accidentally operate as an unregistered broker-dealer or funding portal.
+
+### Patreon reference model
+
+Patreon is the closest public benchmark for "regular people paying regular people" at internet scale.
+
+| Metric | Current benchmark | Why it matters for HFC |
+| --- | ---: | --- |
+| Lifetime creator payments | $10B+ by 2025 | Proves fan-to-person payments can reach institution-scale volume. |
+| Annual creator flow | $2B+ | Useful proxy for mature direct-to-person payment volume. |
+| Paid memberships | 25M+ | Shows a very large base of people willing to pay humans directly. |
+| Free memberships | 100M+ | Shows the funnel above paid support. |
+| Free-to-paid conversions | 700K+/month | Suggests community surfaces can continuously convert passive fans into payers. |
+| New creator platform fee | 10% | Benchmark for software/community/payment take rates. |
+| Legacy creator fees | 5%, 8%, 12% | Shows take-rate tolerance varies with feature bundle and creator history. |
+| 2024 free memberships | 60M+ | Confirms free follower capture became core to creator monetization. |
+| 2024 one-time purchase growth | 4x monthly revenue YoY | Proves fans want flexible payments beyond subscriptions. |
+| Active creators | 300K+ stated by Patreon in 2024 | Creator supply can support a large long-tail marketplace. |
+
+Simple implied math:
+
+- $2B annual creator flow at a 10% platform fee implies about $200M gross platform-fee revenue before payment processing, support, trust and safety, chargebacks, taxes, and infrastructure.
+- $2B annual flow across 25M paid memberships implies about $80 per paid membership per year, or $6.67 per month.
+- 700K monthly free-to-paid conversions is 8.4M annual conversions before churn, showing why the free/community funnel matters as much as the paid checkout.
+
+### HFC revenue streams
+
+| Revenue stream | MVP shape | Example pricing |
+| --- | --- | --- |
+| Approved investment transaction fee | Fee or partner revenue share on closed investment volume, only if counsel/partner approve. | 1% to 3% of closed investment volume. |
+| Investor premium | Better analytics, saved searches, alerts, pre-investment messages if approved, diligence rooms, portfolio exports. | $10 to $25 per month. |
+| Investee reporting/admin SaaS | Formation checklist, reporting, revenue classification, investor update tools, accounting exports. | $49 to $199 per month. |
+| A la carte services | Calls, coaching, paid posts, templates, office hours, workshops sold by investees outside the securities transaction. | 5% to 15% take rate. |
+| Formation/accounting package | Optional setup/admin bundle for investee C-corps and books. | $300 to $1,500 one-time, or cost-plus partner margin. |
+| Partner/service referrals | Legal, accounting, tax, banking, cap-table, or diligence partner marketplace. | Flat referral or revenue share where legally permitted. |
+
+### Scenario model
+
+Assumptions:
+
+- Investment transaction fee: 2% of closed investment volume.
+- Investor premium: 10% of active investors at $12/month in pilot/seed; 8% at scale.
+- Investee SaaS: active listed investees pay the shown monthly average.
+- A la carte services: 10% take rate on non-investment services GMV.
+- Excludes payment processing fees, refunds, chargebacks, support, legal, compliance, and partner costs.
+
+| Scenario | Active investees | Annual closed investment volume | Transaction revenue | Premium investor revenue | Investee SaaS revenue | Services revenue | Total modeled annual revenue |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Pilot | 100 | $1.5M | $30K | $60K | $59K | $25K | $174K |
+| Seed | 1,000 | $25M | $500K | $360K | $1.19M | $250K | $2.30M |
+| Scale | 10,000 | $500M | $10.0M | $5.76M | $17.88M | $5.0M | $38.64M |
+| Patreon-flow benchmark | n/a | $2.0B | $40.0M | n/a | n/a | n/a | $40.0M before other lines |
+
+### Closed investment volume sensitivity
+
+| Annual closed investment volume | 1% fee | 2% fee | 3% fee |
+| ---: | ---: | ---: | ---: |
+| $2.5M | $25K | $50K | $75K |
+| $25M | $250K | $500K | $750K |
+| $100M | $1.0M | $2.0M | $3.0M |
+| $500M | $5.0M | $10.0M | $15.0M |
+| $2.0B | $20.0M | $40.0M | $60.0M |
+
+### Premium subscription sensitivity
+
+| Active investors | Premium attach | Monthly price | Annual premium revenue |
+| ---: | ---: | ---: | ---: |
+| 5,000 | 10% | $10 | $60K |
+| 25,000 | 10% | $12 | $360K |
+| 100,000 | 8% | $12 | $1.15M |
+| 500,000 | 8% | $12 | $5.76M |
+| 1,000,000 | 8% | $15 | $14.4M |
+
+### Why HFC could monetize better than Patreon
+
+Patreon mostly sells access and community. HFC can sell access, community, reporting, diligence, accounting, portfolio management, and upside participation. If backers get a defined economic stake, they have more reason to:
+
+- Invest larger amounts than a subscription.
+- Stay engaged longer.
+- Help the investee earn more.
+- Pay for analytics and monitoring.
+- Buy a la carte services because they also benefit from investee progress.
+
+The key risk is legal structure. The key opportunity is that direct-to-human payments already work, and HFC adds the missing investor-economic layer.
+
+## 5. Legal product shape
 
 ### What is actually being invested in
 
@@ -148,7 +235,7 @@ All money is classified before it can affect investor economics.
 | Grants/scholarships | Depends | Must be classified in offering docs. |
 | Passive personal investments | No | Excluded. |
 
-## 5. MVP scope
+## 6. MVP scope
 
 ### Investor experience
 
@@ -177,7 +264,7 @@ All money is classified before it can affect investor economics.
 - Moderate content and messages.
 - Admin-only partner reconciliation: offering IDs, investor IDs, cap table entries, distributions.
 
-## 6. Stack for Vercel MVP
+## 7. Stack for Vercel MVP
 
 | Layer | Choice | Reason |
 | --- | --- | --- |
@@ -196,7 +283,7 @@ All money is classified before it can affect investor economics.
 
 NestJS can be added later for a separate compliance/accounting service, but the first deploy should stay as a Next.js monolith because Vercel free tier is the constraint.
 
-## 7. Core domain model
+## 8. Core domain model
 
 ```sql
 create type user_role as enum ('investor', 'investee', 'admin');
@@ -349,7 +436,7 @@ create table help_requests (
 );
 ```
 
-## 8. API surface
+## 9. API surface
 
 ### Public
 
@@ -386,7 +473,7 @@ create table help_requests (
 - `POST /api/webhooks/stripe`: receive non-investment payment events.
 - `POST /api/webhooks/accounting`: receive bank/accounting updates.
 
-## 9. Key workflows
+## 10. Key workflows
 
 ### Investee onboarding
 
@@ -425,7 +512,7 @@ create table help_requests (
 4. Payment processor or partner disburses to investors.
 5. Investors with reinvest election receive new securities only through approved issuance mechanics.
 
-## 10. UI map
+## 11. UI map
 
 ### Marketplace
 
@@ -464,7 +551,7 @@ create table help_requests (
 - Update composer.
 - Revenue classifier.
 
-## 11. Monetization
+## 12. Monetization
 
 MVP revenue streams that do not require HFC to custody investment money:
 
@@ -474,7 +561,7 @@ MVP revenue streams that do not require HFC to custody investment money:
 4. Success/platform fee only if counsel and registered partner approve the exact compensation structure.
 5. Later: issuer services, accounting package, cap-table/admin package, ATS partner referral.
 
-## 12. Compliance and trust features
+## 13. Compliance and trust features
 
 - Prominent investment risk disclosure on every offering surface.
 - Offering content immutable after partner launch except approved amendments.
@@ -486,7 +573,7 @@ MVP revenue streams that do not require HFC to custody investment money:
 - Marketplace rankings must not look like investment advice unless counsel approves.
 - Every revenue event has source, external ID, classification, reviewer, timestamp, and memo.
 
-## 13. Build phases
+## 14. Build phases
 
 ### Phase 0: legal/product validation
 
@@ -525,7 +612,7 @@ MVP revenue streams that do not require HFC to custody investment money:
 - ATS/broker-dealer secondary integration.
 - Reserve policy tooling without liquidity promises.
 
-## 14. First repo implementation tasks
+## 15. First repo implementation tasks
 
 1. Replace static site with `apps/web` Next.js app.
 2. Add `packages/db` Prisma schema based on this document.
@@ -538,7 +625,7 @@ MVP revenue streams that do not require HFC to custody investment money:
 9. Add partner investment adapter interface with a mock provider until the real partner contract is signed.
 10. Add accounting adapter interface with manual CSV import first, then Plaid/QuickBooks.
 
-## 15. External references
+## 16. External references
 
 - SEC Regulation Crowdfunding overview: https://www.sec.gov/resources-small-businesses/exempt-offerings/regulation-crowdfunding
 - SEC Rule 506(c) overview: https://www.sec.gov/resources-small-businesses/exempt-offerings/general-solicitation-rule-506c
