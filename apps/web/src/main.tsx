@@ -66,13 +66,18 @@ function App() {
 
   async function submitInstruction(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    await planInstruction(text, source);
+  }
+
+  async function planInstruction(instructionText: string, instructionSource: InstructionSource) {
+    setText(instructionText);
     setBusy(true);
     setStatus('Planning one action intent.');
 
     try {
       const payload = await api<{ instruction: UserInstruction; intent: ActionIntent }>('/api/instructions', {
         method: 'POST',
-        body: JSON.stringify({ text, source })
+        body: JSON.stringify({ text: instructionText, source: instructionSource })
       });
 
       setStatus(
@@ -140,10 +145,25 @@ function App() {
               </select>
               <button disabled={busy}>Plan action</button>
             </div>
+            <button
+              className="demo-action"
+              disabled={busy}
+              type="button"
+              onClick={() => planInstruction(samplePrompts[2], 'text')}
+            >
+              Plan marketplace demo
+            </button>
           </form>
           <div className="prompt-list">
             {samplePrompts.map((prompt) => (
-              <button key={prompt} type="button" onClick={() => setText(prompt)}>
+              <button
+                key={prompt}
+                type="button"
+                onClick={() => {
+                  setText(prompt);
+                  setStatus('Prompt loaded. Click Plan action to create one intent.');
+                }}
+              >
                 {prompt}
               </button>
             ))}
