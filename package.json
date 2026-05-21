@@ -1,0 +1,13 @@
+{
+    "name": "preview-marketimg",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Marketplace and request-time server for advertising banners inside social preview images.",
+    "scripts": {
+        "start": "node server.js",
+        "test": "node --test"
+    },
+    "engines": {
+        "node": ">=20"
+    }
+}
