@@ -1,6 +1,6 @@
 # Human Futures Capital MVP blueprint
 
-Human Futures Capital is an investment marketplace for backing individuals through investee-controlled companies. The marketplace should feel closer to a creator platform than a brokerage terminal: browse people, understand their plans, invest when legally eligible, follow progress, receive updates, help them win, and track distributions.
+Human Futures Capital is an investment marketplace for backing people directly. The investee-controlled company, securities, contracts, and payment rails materialize the agreement; they are not the core thing being bought. The core thing is two sides choosing trust, aligned goals, accountability, and shared upside around a person's future work. The marketplace should feel closer to a creator platform than a brokerage terminal: browse people, understand their plans, invest when legally eligible, follow progress, receive updates, help them win, and track distributions.
 
 This document turns the concept into an MVP that can ship on Vercel while keeping regulated activity on the correct rails. Counsel still has to bless the final contracts, offering flow, disclosures, tax flow, and payments setup before accepting investment money.
 
@@ -9,7 +9,7 @@ This document turns the concept into an MVP that can ship on Vercel while keepin
 1. Do not process investment money through ordinary Stripe Checkout. Stripe marks crowdfunding, equity crowdfunding, investment/brokerage services, escrow, money transmission, and third-party settlement as restricted or limited-availability categories. Use Stripe for subscriptions, messaging products, booking calls, and paid services only after Stripe approval for the applicable platform model.
 2. Do not operate as the securities intermediary in the MVP. Reg CF transactions must happen through an SEC-registered broker-dealer or funding portal. The HFC app can host profiles, diligence content, updates, portfolio views, and community tooling; investment order entry, escrow, securities issuance, and required investor limit checks belong to the registered partner.
 3. Do not use S-corps for marketplace investees. S-corps cannot have partnerships/corporations/nonresident alien shareholders and are not designed for many investors or custom classes.
-4. Use one Delaware C-corp per investee for the investment product. The investee owns and operates that company. Investors buy non-voting securities issued by that company, not a direct claim on the person's body, labor, or all future personal income.
+4. Use one Delaware C-corp per investee to represent the direct person-backed agreement in a form the legal, tax, accounting, and payment systems understand. The investee owns and operates that company. Investors buy non-voting securities issued by that company as the physical/legal representation of the trust agreement, not as control over the person's body, labor, or all future personal income.
 5. No secondary market in MVP. Resales create securities exchange/ATS/broker-dealer issues. Start with locked holdings, issuer-approved transfers, and later integrate an ATS or broker-dealer partner.
 6. No guaranteed buyback or cash-out promise. A reserve policy can exist inside the investee company, but the platform must not promise liquidity unless the legal and capital structure actually supports it.
 
@@ -40,6 +40,15 @@ These are pitch-model numbers, not legal offering claims.
 
 ## 3. Legal product shape
 
+### What is actually being invested in
+
+The product language should say investors back the person directly. The legal structure should say the investment is represented by securities issued by the person's dedicated C-corp. That distinction matters:
+
+- The emotional and product promise is human-first: trust, accountability, collaboration, and aligned goals.
+- The legal instrument is company-first because US securities, tax, banking, and accounting systems need an issuer, books, cap table, and enforceable obligations.
+- The C-corp materializes the agreement. It should not be described as the whole point of the investment.
+- The investee still controls their life and work. Investors receive economic rights defined by the offering terms, not voting rights or personal control.
+
 ### MVP investment rail
 
 Use a partner funding portal or broker-dealer for live investments.
@@ -66,7 +75,7 @@ Use a partner funding portal or broker-dealer for live investments.
 
 ### Security instrument
 
-Default MVP instrument: non-voting preferred stock or revenue-share note issued by each investee C-corp.
+Default MVP instrument: non-voting preferred stock or revenue-share note issued by each investee C-corp. Stock is not the soul of the product; it is the most effective representation available because the legal system already understands private company ownership, cap tables, transfer restrictions, dividends, distributions, and taxable events.
 
 Required terms:
 
@@ -77,6 +86,29 @@ Required terms:
 - Reinvestment election: investor forgoes a cash distribution and receives additional securities only through the approved issuance process.
 - Transfer restrictions: no public resale, no marketplace secondary sale until an ATS/broker-dealer integration exists.
 - Anti-fraud reps: investee must report revenue truthfully and maintain books.
+
+### Stock today, tokenized private stock later
+
+Crypto could eventually represent the same agreement better than spreadsheet cap tables, but not as a launch assumption and not as open-market speculation.
+
+The target model would be fixed-price, compliance-gated tokens representing private securities:
+
+- Token price is preset by the offering or approved valuation event.
+- Price changes the way private company valuation changes: new round, board/counsel-approved valuation update, conversion event, buyback/tender event, or other documented corporate action.
+- Token transfers obey securities restrictions, investor eligibility, lockups, jurisdiction limits, and partner approval.
+- The token is a blockchain implementation of private stock trading or VC-style ownership records, not a public market where hype sets the price.
+- The user-facing product still says "back this person"; the token is just the ownership record.
+
+The MVP should keep the database ledger-ready:
+
+- Append-only ownership events.
+- Immutable valuation events.
+- Explicit transfer restrictions.
+- Source-linked issuance and cancellation records.
+- Audit history for every distribution, reinvestment, transfer, and cap-table mutation.
+- No business logic that depends on mutable balances without the underlying event trail.
+
+That lets HFC migrate to tokenized private securities later if regulators, partners, and customers decide it is good, without rewriting the economic model.
 
 ### Revenue scope
 
@@ -148,6 +180,7 @@ create type profile_status as enum ('draft', 'review', 'listed', 'paused', 'reje
 create type offering_status as enum ('draft', 'diligence', 'partner_live', 'closed', 'cancelled');
 create type transaction_scope as enum ('included', 'excluded', 'needs_review');
 create type distribution_cadence as enum ('monthly', 'quarterly', 'annual', 'reinvest');
+create type ledger_event_type as enum ('issuance', 'transfer', 'cancellation', 'valuation', 'distribution', 'reinvestment');
 
 create table users (
   id uuid primary key,
@@ -204,6 +237,24 @@ create table investments (
   securities_count numeric(30, 12),
   reinvest_distributions boolean not null default false,
   closed_at timestamptz
+);
+
+create table ownership_ledger_events (
+  id uuid primary key,
+  offering_id uuid not null references offerings(id),
+  investment_id uuid references investments(id),
+  event_type ledger_event_type not null,
+  actor_id uuid references users(id),
+  from_user_id uuid references users(id),
+  to_user_id uuid references users(id),
+  securities_delta numeric(30, 12),
+  valuation_cents bigint,
+  amount_cents bigint,
+  source text not null,
+  source_event_id text,
+  metadata_json jsonb not null default '{}'::jsonb,
+  occurred_at timestamptz not null,
+  created_at timestamptz not null default now()
 );
 
 create table revenue_events (
@@ -284,7 +335,7 @@ create table help_requests (
 
 ### Investor
 
-- `GET /api/portfolio`: holdings, distributions, updates, messages.
+- `GET /api/portfolio`: holdings, ledger-derived balances, distributions, updates, messages.
 - `POST /api/offerings/:id/invest-intent`: creates partner handoff URL.
 - `PATCH /api/investments/:id/reinvestment`: toggles reinvest election through partner-approved process.
 - `POST /api/conversations`: starts message if user is eligible.
@@ -307,7 +358,7 @@ create table help_requests (
 - `PATCH /api/admin/revenue-events/:id`: review revenue classification.
 - `POST /api/admin/offerings/:id/submit-to-partner`: create partner offering.
 - `POST /api/admin/distributions/:profileId/calculate`: produce distribution draft.
-- `POST /api/webhooks/partner`: receive investment/closing/cap-table events.
+- `POST /api/webhooks/partner`: receive investment/closing/cap-table events and append ownership ledger events.
 - `POST /api/webhooks/stripe`: receive non-investment payment events.
 - `POST /api/webhooks/accounting`: receive bank/accounting updates.
 
@@ -331,8 +382,8 @@ create table help_requests (
 3. Investor clicks Invest.
 4. HFC creates `invest-intent` and sends user to registered partner.
 5. Partner runs legal checks, collects funds, and closes investment.
-6. Partner webhook creates `investment`.
-7. Portfolio dashboard shows holding and update feed.
+6. Partner webhook creates `investment` and the related `ownership_ledger_events`.
+7. Portfolio dashboard derives holdings from the ledger and shows the update feed.
 
 ### Revenue reporting
 
@@ -430,7 +481,7 @@ MVP revenue streams that do not require HFC to custody investment money:
 
 - Formation checklist.
 - Partner offering handoff.
-- Partner webhooks into portfolio records.
+- Partner webhooks into append-only portfolio ledger records.
 - Investor dashboard.
 - Reporting snapshots.
 
@@ -454,7 +505,7 @@ MVP revenue streams that do not require HFC to custody investment money:
 
 1. Replace static site with `apps/web` Next.js app.
 2. Add `packages/db` Prisma schema based on this document.
-3. Add `packages/domain` with typed state machines for profile/offering/investment statuses.
+3. Add `packages/domain` with typed state machines for profile/offering/investment statuses and ledger event validation.
 4. Add marketplace/profile/dashboard screens using seeded data.
 5. Add Clerk/Auth.js auth.
 6. Add Neon Postgres.
