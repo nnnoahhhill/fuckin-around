@@ -12,7 +12,7 @@ import {
 
 import './styles.css';
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8787';
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? '';
 
 interface TimelineState {
   instructions: UserInstruction[];
@@ -51,7 +51,9 @@ function App() {
   );
 
   useEffect(() => {
-    void refresh();
+    void refresh().catch((error) => {
+      setStatus(error instanceof Error ? error.message : 'Could not connect to Ghostline API.');
+    });
   }, []);
 
   async function refresh() {
@@ -174,7 +176,7 @@ function App() {
         <article className="panel desktop-panel">
           <div className="panel-heading">
             <p className="eyebrow">virtual display</p>
-            <h2>{session?.activeDisplay.name ?? 'Ghostline desktop'}</h2>
+            <h2>{session?.activeDisplay.name ?? 'Connecting virtual display'}</h2>
           </div>
           <div className="remote-frame">
             <div className="browser-bar">
@@ -189,9 +191,9 @@ function App() {
             </div>
           </div>
           <div className="display-meta">
-            <span>{session?.activeDisplay.resolution ?? '1920x1080'}</span>
-            <span>{session?.activeDisplay.transport ?? 'webrtc'}</span>
-            <span>{session?.mode ?? 'assist'}</span>
+            <span>{session?.activeDisplay.resolution ?? 'connecting'}</span>
+            <span>{session?.activeDisplay.transport ?? 'connecting'}</span>
+            <span>{session?.mode ?? 'connecting'}</span>
           </div>
         </article>
 
@@ -247,19 +249,17 @@ function App() {
             </div>
             <div>
               <dt>Money approval above</dt>
-              <dd>
-                {session
-                  ? `${session.moneyPolicy.currency} ${(
-                      session.moneyPolicy.requiresFreshApprovalAboveCents / 100
-                    ).toFixed(2)}`
-                  : '$0.01'}
-              </dd>
+              <dd>{session ? formatMoneyApproval(session) : 'Connecting'}</dd>
             </div>
           </dl>
         </article>
       </section>
     </main>
   );
+}
+
+function formatMoneyApproval(session: AgentSession): string {
+  return `${session.moneyPolicy.currency} ${(session.moneyPolicy.requiresFreshApprovalAboveCents / 100).toFixed(2)}`;
 }
 
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
