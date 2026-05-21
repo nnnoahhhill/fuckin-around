@@ -1,18 +1,32 @@
-# Loose Friday 🌴
+# Preview Marketimg
 
-A Three.js 3D interactive scene featuring "Loose Friday" text floating above a tropical island paradise with floating "Lorde Summer" letters in the water.
+A full-stack prototype for selling and serving ad banners inside request-time social preview images.
 
-## Features
-- 3D golden "Loose Friday" text with hovering/waving animations
-- Floating "Lorde Summer" letters in translucent blue bobbing in the ocean waves
-- Realistic tropical island with natural terrain variation and beach plants
-- Detailed palm tree with curved trunk and coconuts that gently rotate
-- Enhanced ocean with multi-layered waves, foam effects, and realistic water colors
-- Animated crab that walks around the island with moving claws and bobbing motion
-- Interactive camera controls (drag to rotate, scroll to zoom)
-- Coral reefs and varied rock formations around the island
+## What it does
 
-## Live Demo
-Visit the site at: [https://nnnoahhhill.github.io/fuckin-around/](https://nnnoahhhill.github.io/fuckin-around/)
+- Domain owners publish inventory with target markets, default no-ad media, banner slot positions, CPM guidance, spend floors, and the install snippet.
+- Buyers create a campaign, choose a slot, target a market segment, submit creative copy, render preview sizes, and approve with the owner.
+- The backend serves dynamic Open Graph SVG images at request time and rotates approved campaigns by link, IP, segment, and time bucket.
+- Preview requests record impressions, repeat sticky views, and A-B-A request patterns that suggest two people are discussing the same link.
 
-Built with Three.js featuring custom GLSL shaders for realistic ocean effects, floating text animations, and wildlife interactions. Deployed via GitHub Pages.
+## Run it
+
+```bash
+npm start
+```
+
+Open `http://localhost:4173`.
+
+## Test it
+
+```bash
+npm test
+```
+
+## Dynamic preview endpoint
+
+```text
+/api/previews/:listingId/:linkId.svg?segment=family-grocery&style=imessage
+```
+
+Supported styles are `imessage`, `wide`, and `square`.

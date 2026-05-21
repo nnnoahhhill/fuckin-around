@@ -3,33 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yo wuddup</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: black;
-            font-family: Arial, sans-serif;
-        }
-        
-        .blinking-text {
-            font-size: 4rem;
-            color: lime;
-            text-align: center;
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-    </style>
+    <title>Preview Marketimg</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="blinking-text">yo wuddup</div>
+    <header class="hero">
+        <nav class="topbar">
+            <a class="brand" href="/">Preview Marketimg</a>
+            <div class="nav-links">
+                <a href="#marketplace">Marketplace</a>
+                <a href="#composer">Build campaign</a>
+                <a href="#metrics">Metrics</a>
+            </div>
+        </nav>
+
+        <section class="hero-grid">
+            <div class="hero-copy">
+                <p class="eyebrow">Ad marketplace for link preview images</p>
+                <h1>Turn every shared URL into a targeted digital billboard.</h1>
+                <p class="lede">
+                    Domain owners sell banner placements on Open Graph preview images.
+                    Buyers sponsor the preview only when the audience segment matches.
+                </p>
+                <div class="hero-actions">
+                    <a class="button primary" href="#marketplace">Browse domains</a>
+                    <a class="button secondary" href="#composer">Create campaign</a>
+                </div>
+            </div>
+
+            <div class="hero-card" aria-label="Live preview example">
+                <div class="share-shell">
+                    <div class="message-bubble">check this out</div>
+                    <img
+                        id="hero-preview"
+                        class="preview-image"
+                        src="/api/previews/bread-board/friend-chat.svg?segment=family-grocery&style=imessage"
+                        alt="Targeted social preview ad"
+                    >
+                    <p class="preview-note">Ad selected at request time from link, segment, date, and approval state.</p>
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <main>
+        <section class="section" id="marketplace">
+            <div class="section-heading">
+                <p class="eyebrow">Supply</p>
+                <h2>Domain inventory</h2>
+                <p>Owners publish their audience, default no-ad media, banner slots, pricing guidance, and install snippet.</p>
+            </div>
+            <div id="listing-grid" class="listing-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="section two-column" id="composer">
+            <div>
+                <div class="section-heading compact">
+                    <p class="eyebrow">Demand</p>
+                    <h2>Campaign builder</h2>
+                    <p>Pick a domain, choose a banner slot, submit creative, preview renderings, then approve both sides.</p>
+                </div>
+                <form id="campaign-form" class="panel campaign-form">
+                    <label>
+                        Domain inventory
+                        <select id="listing-select" name="listingId" required></select>
+                    </label>
+
+                    <label>
+                        Banner slot
+                        <select id="slot-select" name="slotId" required></select>
+                    </label>
+
+                    <div class="form-grid">
+                        <label>
+                            Buyer brand
+                            <input name="buyer" value="Peanut Butter Labs" required>
+                        </label>
+                        <label>
+                            Product
+                            <input name="product" value="Crunchy PB launch" required>
+                        </label>
+                    </div>
+
+                    <label>
+                        Banner headline
+                        <input name="headline" value="Bread deserves better peanut butter." maxlength="72" required>
+                    </label>
+
+                    <div class="form-grid">
+                        <label>
+                            CTA / code
+                            <input name="code" value="PBJ-20" maxlength="24" required>
+                        </label>
+                        <label>
+                            Target segment
+                            <select name="targetSegment" required>
+                                <option value="family-grocery">Family grocery</option>
+                                <option value="home-cooks">Home cooks</option>
+                                <option value="lunch-packers">Lunch packers</option>
+                                <option value="camping">Camping</option>
+                                <option value="dessert-makers">Dessert makers</option>
+                                <option value="gaming">Gaming</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="form-grid">
+                        <label>
+                            Campaign start
+                            <input name="startsAt" type="date" required>
+                        </label>
+                        <label>
+                            Campaign end
+                            <input name="endsAt" type="date" required>
+                        </label>
+                    </div>
+
+                    <div class="form-grid">
+                        <label>
+                            CPM bid
+                            <input name="cpm" type="number" min="1" step="1" value="26" required>
+                        </label>
+                        <label>
+                            Budget
+                            <input name="budget" type="number" min="100" step="50" value="1800" required>
+                        </label>
+                    </div>
+
+                    <div class="swatches" aria-label="Brand color">
+                        <button type="button" data-color="#f59e0b" class="swatch active" style="--swatch:#f59e0b"></button>
+                        <button type="button" data-color="#22c55e" class="swatch" style="--swatch:#22c55e"></button>
+                        <button type="button" data-color="#38bdf8" class="swatch" style="--swatch:#38bdf8"></button>
+                        <button type="button" data-color="#f43f5e" class="swatch" style="--swatch:#f43f5e"></button>
+                    </div>
+
+                    <button class="button primary full" type="submit">Submit campaign</button>
+                </form>
+            </div>
+
+            <aside class="panel preview-panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">Creative preview</p>
+                        <h3 id="preview-title">Pending render</h3>
+                    </div>
+                    <button id="approve-button" class="button secondary" type="button" disabled>Approve both sides</button>
+                </div>
+                <div id="render-grid" class="render-grid"></div>
+                <div id="pricing-guidance" class="pricing-guidance"></div>
+            </aside>
+        </section>
+
+        <section class="section" id="metrics">
+            <div class="section-heading">
+                <p class="eyebrow">Measurement</p>
+                <h2>Live serving and conversation signals</h2>
+                <p>Each preview image request records segment fit, creative, sticky repeat views, and A-B-A request patterns.</p>
+            </div>
+            <div class="metrics-grid" id="metrics-grid"></div>
+        </section>
+    </main>
+
+    <script src="/script.js"></script>
 </body>
 </html>
