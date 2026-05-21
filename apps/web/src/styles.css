@@ -189,6 +189,11 @@ select {
   width: 100%;
 }
 
+.demo-action span {
+  font-weight: 600;
+  opacity: 0.7;
+}
+
 .prompt-list button,
 .secondary {
   background: rgba(255, 255, 255, 0.12);

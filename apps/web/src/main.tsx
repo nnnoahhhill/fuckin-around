@@ -56,6 +56,24 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const activeTag = document.activeElement?.tagName;
+
+      if (event.key.toLowerCase() !== 'm' || activeTag === 'TEXTAREA' || activeTag === 'SELECT' || busy) {
+        return;
+      }
+
+      void planInstruction(samplePrompts[2], 'text');
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [busy]);
+
   async function refresh() {
     const [sessionResponse, intentsResponse] = await Promise.all([
       api<AgentSession>('/api/session'),
@@ -153,7 +171,7 @@ function App() {
               type="button"
               onClick={() => planInstruction(samplePrompts[2], 'text')}
             >
-              Plan marketplace demo
+              Plan marketplace demo <span>or press M</span>
             </button>
           </form>
           <div className="prompt-list">
