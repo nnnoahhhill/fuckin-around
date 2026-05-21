@@ -1,18 +1,52 @@
-# Loose Friday 🌴
+# Human Futures Capital
 
-A Three.js 3D interactive scene featuring "Loose Friday" text floating above a tropical island paradise with floating "Lorde Summer" letters in the water.
+Invest in people.
 
-## Features
-- 3D golden "Loose Friday" text with hovering/waving animations
-- Floating "Lorde Summer" letters in translucent blue bobbing in the ocean waves
-- Realistic tropical island with natural terrain variation and beach plants
-- Detailed palm tree with curved trunk and coconuts that gently rotate
-- Enhanced ocean with multi-layered waves, foam effects, and realistic water colors
-- Animated crab that walks around the island with moving claws and bobbing motion
-- Interactive camera controls (drag to rotate, scroll to zoom)
-- Coral reefs and varied rock formations around the island
+Human Futures Capital is a planned marketplace for investing directly in people. The company, stock, contracts, and payment rails are the legal machinery that materializes the agreement; the actual product is two humans choosing trust, alignment, accountability, and shared upside. People list themselves, explain what they want to become, pick approved valuation/security terms, form a dedicated C-corp to represent the agreement, and accept investment through a compliant funding-portal or broker-dealer rail. Investors browse humans like a creator marketplace, review goals, risks, revenue scope, transparency level, updates, spend, and traction, then invest, track holdings, receive distributions, choose approved reinvestment options, message investees, answer help requests, and follow progress from a portfolio dashboard.
 
-## Live Demo
-Visit the site at: [https://nnnoahhhill.github.io/fuckin-around/](https://nnnoahhhill.github.io/fuckin-around/)
+The core bet: money kills dreams, belief compounds motivation, and direct investment into capable humans can unlock teachers, doctors, researchers, founders, creators, operators, and other high-agency people before traditional capital notices them. The product has to include accountability from day one: revenue and spend tracking, accounting/bank integrations, investee updates, investor-visible milestones, revenue classification, audit logs, payout calculations, reserve policies, and clear rules for what counts as company revenue versus excluded personal salary, VC-funded startup revenue, grants, or unrelated activity.
 
-Built with Three.js featuring custom GLSL shaders for realistic ocean effects, floating text animations, and wildlife interactions. Deployed via GitHub Pages.
+Investors do not receive voting rights. Investees can still publish non-binding polls, ask backers for help, sell approved a la carte services, and build a community that wants them to win because upside is aligned.
+
+## Market proof
+
+Direct-to-human payments are already enormous, but they mostly stop at access, tips, subscriptions, and parasocial goodwill. OnlyFans processed $7.22 billion of fan payments in fiscal 2024, paid creators $5.80 billion, had 377.5 million fan accounts, and reported 46 employees. Patreon says creators have generated more than $8 billion since launch, with more than 10 million paid memberships each month and more than 60 million free memberships. Substack has more than 5 million paid subscriptions and more than 50,000 paid publications. People already pay individual people at scale; HFC adds long-term upside, reporting, accountability, and investor economics.
+
+This is not fundamentally different from how consumers already behave with companies. You keep paying Starbucks because you trust it will keep matching expectations, make new drinks, fix mistakes, price reasonably, and still be there tomorrow. Starbucks had 33.8 million 90-day active U.S. Rewards members in Q4 FY2024, and when the customer experience slipped, transactions fell. Apple is even clearer: people buy into an ecosystem and the promise of what comes next, not just the device in their hand. The App Store ecosystem facilitated nearly $1.3 trillion in 2024 billings and sales and more than doubled from 2019. Most spending is future trust wearing a product costume.
+
+## Financial model
+
+Patreon is the reference point for a direct-fan platform: new creators pay a 10% platform fee, more than $2 billion flows to creators annually, there are more than 25 million paid memberships, and more than 700,000 free memberships convert to paid each month. HFC should not copy Patreon exactly because investment transactions are regulated, but the benchmark proves that fan-to-person payment volume can support a large platform fee business.
+
+Simple HFC revenue can come from a small approved transaction fee on closed investment volume, investor premium tools, investee reporting/admin SaaS, and a take rate on non-investment services like calls, coaching, templates, and paid updates. At a 2% approved investment-platform fee, $25 million of annual closed investment volume creates $500,000 of transaction revenue; $500 million creates $10 million; and Patreon-scale $2 billion annual flow creates $40 million before adding subscriptions, SaaS, or services.
+
+The fastest legal MVP is not ordinary Stripe-powered equity crowdfunding. Stripe can support subscriptions, paid messaging, bookings, and a la carte investee services after approval, but live investment money, escrow, securities issuance, investor checks, closings, and cap-table records should run through a registered partner. The first Vercel build should be a Next.js marketplace with profiles, dashboards, messaging, updates, admin review, mock investment handoff, revenue reporting, and partner-ready integration boundaries.
+
+## Representation model
+
+Buying stock in a company has always been an agreement. A stock certificate is basically a signed agreement on paper: here is what you bought, what you expect, what the company owes, and what rules everyone can enforce. The real thing underneath is trust that the company will pursue the goals you backed. HFC applies that same idea to a person directly. The stock is just how the trust, expectations, rules, regulation, monitoring, and security get communicated in a form the world can enforce.
+
+Stock is not the soul of the product; it is the best available physical/legal representation of the trust agreement. The C-corp exists so the agreement has books, taxes, ownership records, distributions, and enforceable obligations. That paper-first model is old-school. Vintage. Useful, but not sacred. HFC is the new-day version: direct human backing with better transparency, better accountability, and better alignment. A crypto version could eventually represent the same thing as fixed-price, preset, compliance-gated tokens: not open-market meme coins, not price discovery by speculation, but blockchain-native private stock whose price changes through approved valuation events the way private company equity or VC rounds do. The MVP should model ownership, transfers, valuation events, restrictions, and audit history as an append-only ledger internally so the system can migrate to tokenized private securities if regulators, partners, and users decide that is the better rail.
+
+## MVP surfaces
+
+- Marketplace: browse investees by domain, ambition, transparency, stage, raise, revenue, and update cadence.
+- Investee profile: thesis, story, use of funds, valuation option, revenue scope, risk disclosures, updates, help requests, and legal offering link.
+- Investor dashboard: holdings, invested amount, distributions, reinvestment election, messages, updates, and portfolio activity.
+- Investee dashboard: formation checklist, profile builder, revenue classifier, spend tracker, update composer, polls, and payout status.
+- Admin console: approve profiles, review revenue classifications, reconcile partner investment events, moderate content, and calculate distributions.
+
+## Build direction
+
+- App: Next.js App Router on Vercel.
+- Database: Neon Postgres with Prisma.
+- Auth: Clerk or Auth.js.
+- UI: Tailwind and shadcn/ui.
+- Payments: Stripe Connect only for non-investment services after approval.
+- Investment rail: registered funding portal or broker-dealer API.
+- Accounting: manual CSV first, then Plaid, QuickBooks, or Xero.
+- Ledger: append-only ownership, valuation, distribution, transfer, and reinvestment events.
+- Jobs: Inngest or Trigger.dev for webhooks, reporting, and reconciliation.
+- Realtime: Ably or Pusher for messaging and live dashboard counters.
+
+Full implementation details live in [`docs/hfc-mvp-blueprint.md`](docs/hfc-mvp-blueprint.md).
