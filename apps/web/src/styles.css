@@ -292,6 +292,11 @@ select {
   color: #d8ccbd;
 }
 
+.shortcut {
+  color: #f8ff7a;
+  margin-bottom: 0;
+}
+
 .cards {
   display: grid;
   gap: 12px;

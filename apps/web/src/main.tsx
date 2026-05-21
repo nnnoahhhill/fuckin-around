@@ -60,11 +60,17 @@ function App() {
     const handleKeyDown = (event: KeyboardEvent) => {
       const activeTag = document.activeElement?.tagName;
 
-      if (event.key.toLowerCase() !== 'm' || activeTag === 'TEXTAREA' || activeTag === 'SELECT' || busy) {
+      if (activeTag === 'TEXTAREA' || activeTag === 'SELECT' || busy) {
         return;
       }
 
-      void planInstruction(samplePrompts[2], 'text');
+      if (event.key.toLowerCase() === 'm') {
+        void planInstruction(samplePrompts[2], 'text');
+      }
+
+      if (event.key.toLowerCase() === 'a' && approvalQueue[0]) {
+        void decide(approvalQueue[0].id, 'approve');
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -72,7 +78,7 @@ function App() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [busy]);
+  }, [approvalQueue, busy]);
 
   async function refresh() {
     const [sessionResponse, intentsResponse] = await Promise.all([
@@ -224,6 +230,7 @@ function App() {
             <p className="empty">No pending approvals.</p>
           ) : (
             <div className="cards">
+              <p className="shortcut">Press A to approve the first pending action.</p>
               {approvalQueue.map((intent) => (
                 <div className="intent-card" key={intent.id}>
                   <strong>{intent.summary}</strong>
